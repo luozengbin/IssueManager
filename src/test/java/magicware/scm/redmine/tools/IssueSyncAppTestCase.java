@@ -27,8 +27,8 @@ public class IssueSyncAppTestCase {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		System.setProperty(Constants.CONFIG_FILE, RedmineClientTestCase.class
-				.getResource("config.json").getFile());
+		System.setProperty(Constants.CONFIG_FILE, RedmineClientTestCase.class.getClassLoader()
+				.getResource("data/config.json").getFile());
 
 		config = ConfigFacade.getConfig();
 	}

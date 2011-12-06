@@ -39,11 +39,12 @@ public class ConfigFacadeTestCase {
 		log.info("sample config json string");
 		log.info(JSON.encode(config, true));
 	}
-	
+
 	@Test
 	public void test() {
-		String testConfigFile = ConfigFacadeTestCase.class.getResource("config.json").getFile();
-		
+		String testConfigFile = ConfigFacadeTestCase.class.getClassLoader()
+				.getResource("data/config.json").getFile();
+
 		System.setProperty(Constants.CONFIG_FILE, testConfigFile);
 		log.info("Config File: " + testConfigFile);
 		log.info(JSON.encode(ConfigFacade.getConfig(), true));
