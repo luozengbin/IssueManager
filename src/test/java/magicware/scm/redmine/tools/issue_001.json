@@ -1,0 +1,23 @@
+{
+    "issue": {
+        "project_id": "3",
+        "subject": "test issue from issue manager",
+        "tracker_id": "19",
+        "status_id": "1",
+        "description": "test issue from issue manager\n改行\n日本語",
+        "category_id": "",
+        "assigned_to_id": "20",
+        "start_date": "2011/12/06",
+        "due_date": "2011/12/08",
+        "done_ratio": "10",
+        "priority_id": "3",
+        "custom_field_values":{
+            "4" : "tool,testing",
+            "5" : "QNES",
+            "16": "100",
+            "18": "駱 増彬",
+            "27": "起票者A"
+        },
+        "watcher_user_ids":["20"]
+    }
+}

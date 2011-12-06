@@ -1,0 +1,23 @@
+{
+    "issue": {
+        "project_id": "3",
+        "subject": "${8}",
+        "tracker_id": "19",
+        "status_id": "${2}->{"default":"1", "新規":"1", "調査中":"9"}",
+        "description": "${9}",
+        "category_id": "${3}->{"default":"", "Test":"48"}",
+        "assigned_to_id": "${11}->{"default":"", "akira":"20"}",
+        "start_date": "${6}",
+        "due_date": "${10}",
+        "done_ratio": "10",
+        "priority_id": "${5}->{"default":"4", "低":"3", "中":"4", "高":"5"}",
+        "custom_field_values":{
+            "4" : "QA,${3}",
+            "5" : "${4}",
+            "16": "${1}",
+            "18": "",
+            "27": "${7}"
+        },
+        "watcher_user_ids":["20"]
+    }
+}

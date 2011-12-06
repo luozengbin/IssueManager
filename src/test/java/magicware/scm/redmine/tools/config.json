@@ -1,0 +1,27 @@
+{
+	"redmineHost": "192.168.0.1",
+	"redminePort": 80,
+	"redmineContext": "/redmine",
+	"redmineAuthUser": "redmine",
+	"redmineAuthPwd": "MzlzZXJ2ZXI=",
+	"syncItems": [
+		{
+			"filePath": "./src/test/java/magicware/scm/redmine/tools/test_data_001.xls",
+			"sheetName": "Sheet1",
+			"jsonTemplate": "./src/test/java/magicware/scm/redmine/tools/issue_template_001.json",
+			"projectId": "3",
+			"keyColumnIdx": 1,
+			"keyRowBeginIdx": 5,
+			"keyFiledId": "cf_16"
+		},
+		{
+			"filePath": "./src/test/java/magicware/scm/redmine/tools/test_data_002.xls",
+			"sheetName": "Sheet1",
+			"jsonTemplate": "./src/test/java/magicware/scm/redmine/tools/issue_template_002.json",
+			"projectId": "3",
+			"keyColumnIdx": 1,
+			"keyRowBeginIdx": 5,
+			"keyFiledId": "cf_16"
+		}
+	]
+}
