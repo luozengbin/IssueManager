@@ -1,0 +1,28 @@
+#+TITLE: IssueManagerについて
+
+* 機能概要
+外部のエクセルからテンプレートよりredmineというBTSシステムにチケットを登録するツール
+です。
+
+* 抱えた問題点
+最初は[[https://github.com/leovitch/redmine_importer/wiki][Redmine Importer]]プラグインを使っていたが、いくつか課題が出ていた。
+- 内容改行できない
+- バッチより自動登録が難しい
+- =*.xsl= がサポートされていない
+- 複雑なフォーマットのインポートが出来ない
+というわけで自前のツールを作りました。
+
+* 運用例
+*Redmine + Jenkins + IssueManager + QA表*
+
+- お客様と共有するQA表が共有サーバーに置かれている。
+- JenkinsにQA表を読み取り用のIssueManagerジョブを登録する
+- QA表にQAが新規追加された。
+- IssueManagerジョブより検知されて、QA内容をRedmineに登録する。
+
+何故Jenkinsが登場するなら、ジョブ簡単に管理できるからです。ジョブ障害発生時に運用管理
+者へメールを飛ぶ設定も出来ますし。
+
+* 使い方
+
+* カスタマイズ
