@@ -45,187 +45,188 @@ import org.slf4j.LoggerFactory;
 
 public class RedmineClient {
 
-	protected static Logger log = LoggerFactory.getLogger(RedmineClient.class);
+    protected static Logger log = LoggerFactory.getLogger(RedmineClient.class);
 
-	private HttpHost targetHost;
-	private DefaultHttpClient httpclient;
-	private String context = null;
+    private HttpHost targetHost;
+    private DefaultHttpClient httpclient;
+    private String context = null;
 
-	public RedmineClient(String host, int port, String context) {
-		super();
-		this.httpclient = new DefaultHttpClient();
-		this.targetHost = new HttpHost(host, port, Constants.NORMAL_PROTOCOL);
-		this.context = context;
-	}
+    public RedmineClient(String host, int port, String context) {
+        super();
+        this.httpclient = new DefaultHttpClient();
+        this.targetHost = new HttpHost(host, port, Constants.NORMAL_PROTOCOL);
+        this.context = context;
+    }
 
-	public void fillBasicAuth(String userName, String base64Pwd) {
+    public void fillBasicAuth(String userName, String base64Pwd) {
 
-		// Basic認証
-		httpclient.getCredentialsProvider().setCredentials(
-				new AuthScope(targetHost.getHostName(), targetHost.getPort()),
-				new UsernamePasswordCredentials(userName, new String(Base64
-						.decodeBase64(base64Pwd))));
-		AuthCache authCache = new BasicAuthCache();
-		BasicScheme basicAuth = new BasicScheme();
-		authCache.put(targetHost, basicAuth);
-		BasicHttpContext localcontext = new BasicHttpContext();
-		localcontext.setAttribute(ClientContext.AUTH_CACHE, authCache);
-	}
+        // Basic認証
+        httpclient.getCredentialsProvider().setCredentials(
+                new AuthScope(targetHost.getHostName(), targetHost.getPort()),
+                new UsernamePasswordCredentials(userName, new String(Base64
+                        .decodeBase64(base64Pwd))));
+        AuthCache authCache = new BasicAuthCache();
+        BasicScheme basicAuth = new BasicScheme();
+        authCache.put(targetHost, basicAuth);
+        BasicHttpContext localcontext = new BasicHttpContext();
+        localcontext.setAttribute(ClientContext.AUTH_CACHE, authCache);
+    }
 
-	public int queryIssue(String projectId, String fieldId, String keyNo)
-			throws ClientProtocolException, IOException {
+    public int queryIssue(String projectId, String fieldId, String keyNo)
+            throws ClientProtocolException, IOException {
 
-		HttpGet httpGet = null;
-		try {
+        HttpGet httpGet = null;
+        try {
 
-			int count = 0;
-			StringBuilder uri = new StringBuilder();
+            int count = 0;
+            StringBuilder uri = new StringBuilder();
 
-			uri.append(this.context).append("/issues.json?")
-					.append("project_id=").append(projectId).append("&")
-					.append(fieldId).append("=").append(keyNo);
+            uri.append(this.context).append("/issues.json?")
+                    .append("project_id=").append(projectId).append("&")
+                    .append(fieldId).append("=").append(keyNo);
 
-			httpGet = new HttpGet(uri.toString());
-			log.debug("executing get request " + httpGet.getURI());
+            httpGet = new HttpGet(uri.toString());
+            log.debug("executing get request " + httpGet.getURI());
 
-			// レスポンスの取得
-			RdeminResponse rdeminResponse = getRdeminResponse(httpGet);
+            // レスポンスの取得
+            RdeminResponse rdeminResponse = getRdeminResponse(httpGet);
 
-			if (rdeminResponse.isResponseOK()) {
-				Matcher m = Pattern.compile(Constants.ISSUE_COUNT_VALUE_EXP)
-						.matcher(rdeminResponse.getContent());
-				while (m.find()) {
-					MatchResult mr = m.toMatchResult();
-					count = Integer.valueOf(mr.group(1).trim());
-				}
-				log.debug("count of issue[" + keyNo + "] -> " + count);
-			}
+            if (rdeminResponse.isResponseOK()) {
+                Matcher m = Pattern.compile(Constants.ISSUE_COUNT_VALUE_EXP)
+                        .matcher(rdeminResponse.getContent());
+                while (m.find()) {
+                    MatchResult mr = m.toMatchResult();
+                    count = Integer.valueOf(mr.group(1).trim());
+                }
+                log.debug("count of issue[" + keyNo + "] -> " + count);
+            }
 
-			return count;
+            return count;
 
-		} finally {
-			if (httpGet != null)
-				httpGet.abort();
-		}
-	}
+        } finally {
+            if (httpGet != null)
+                httpGet.abort();
+        }
+    }
 
-	public String createNewIssue(String newIssue)
-			throws ClientProtocolException, IOException {
-		HttpPost httpPost = null;
-		String newIssueId = null;
-		try {
-			log.trace(newIssue);
-			httpPost = new HttpPost(this.context + "/issues.json");
-			httpPost.setEntity(new StringEntity(newIssue, "application/json",
-					HTTP.UTF_8));
-			log.debug("executing post request " + httpPost.getURI());
+    public String createNewIssue(String newIssue)
+            throws ClientProtocolException, IOException {
+        HttpPost httpPost = null;
+        String newIssueId = null;
+        try {
+            log.trace(newIssue);
+            httpPost = new HttpPost(this.context + "/issues.json");
+            httpPost.setEntity(new StringEntity(newIssue, "application/json",
+                    HTTP.UTF_8));
+            log.debug("executing post request " + httpPost.getURI());
 
-			// レスポンスの取得
-			RdeminResponse rdeminResponse = getRdeminResponse(httpPost);
+            // レスポンスの取得
+            RdeminResponse rdeminResponse = getRdeminResponse(httpPost);
 
-			if (rdeminResponse.isResponseOK()) {
-				Matcher m = Pattern.compile(Constants.ISSUE_ID_VALUE_EXP)
-						.matcher(rdeminResponse.getContent());
-				while (m.find()) {
-					MatchResult mr = m.toMatchResult();
-					newIssueId = mr.group(1).trim();
-				}
-			}
-			return newIssueId;
+            if (rdeminResponse.isResponseOK()) {
+                Matcher m = Pattern.compile(Constants.ISSUE_ID_VALUE_EXP)
+                        .matcher(rdeminResponse.getContent());
+                while (m.find()) {
+                    MatchResult mr = m.toMatchResult();
+                    newIssueId = mr.group(1).trim();
+                }
+            }
+            return newIssueId;
 
-		} finally {
-			if (httpPost != null)
-				httpPost.abort();
-		}
-	}
+        } finally {
+            if (httpPost != null)
+                httpPost.abort();
+        }
+    }
 
-	public boolean deleteIssue(String issueId) throws ClientProtocolException,
-			IOException {
-		HttpDelete httpDelete = null;
-		try {
-			httpDelete = new HttpDelete(this.context + "/issues/" + issueId + ".json");
-			log.debug("executing request delete " + httpDelete.getURI());
-			RdeminResponse rdeminResponse = getRdeminResponse(httpDelete);
-			return rdeminResponse.isResponseOK();
-		} finally {
-			if (httpDelete != null)
-				httpDelete.abort();
-		}
-	}
+    public boolean deleteIssue(String issueId) throws ClientProtocolException,
+            IOException {
+        HttpDelete httpDelete = null;
+        try {
+            httpDelete = new HttpDelete(this.context + "/issues/" + issueId
+                    + ".json");
+            log.debug("executing request delete " + httpDelete.getURI());
+            RdeminResponse rdeminResponse = getRdeminResponse(httpDelete);
+            return rdeminResponse.isResponseOK();
+        } finally {
+            if (httpDelete != null)
+                httpDelete.abort();
+        }
+    }
 
-	public int request(String uri) throws ClientProtocolException, IOException {
-		HttpGet httpGet = null;
-		try {
-			httpGet = new HttpGet(this.context + uri);
-			log.debug("executing request " + httpGet.getURI());
-			return getRdeminResponse(httpGet).getStatus();
-		} finally {
-			if (httpGet != null)
-				httpGet.abort();
-		}
-	}
+    public int request(String uri) throws ClientProtocolException, IOException {
+        HttpGet httpGet = null;
+        try {
+            httpGet = new HttpGet(this.context + uri);
+            log.debug("executing request " + httpGet.getURI());
+            return getRdeminResponse(httpGet).getStatus();
+        } finally {
+            if (httpGet != null)
+                httpGet.abort();
+        }
+    }
 
-	private RdeminResponse getRdeminResponse(HttpRequest request)
-			throws IOException, ClientProtocolException {
+    private RdeminResponse getRdeminResponse(HttpRequest request)
+            throws IOException, ClientProtocolException {
 
-		RdeminResponse rdeminResponse = new RdeminResponse();
+        RdeminResponse rdeminResponse = new RdeminResponse();
 
-		log.debug("-------------------------------------");
+        log.debug("-------------------------------------");
 
-		HttpResponse response = httpclient.execute(targetHost, request);
+        HttpResponse response = httpclient.execute(targetHost, request);
 
-		int statusCode = response.getStatusLine().getStatusCode();
-		log.debug("responseStatus:" + statusCode);
-		log.trace("Response Header >>>");
-		Header[] headers = response.getAllHeaders();
-		for (Header header : headers) {
-			log.trace(header.getName() + ": " + header.getValue());
-		}
+        int statusCode = response.getStatusLine().getStatusCode();
+        log.debug("responseStatus:" + statusCode);
+        log.trace("Response Header >>>");
+        Header[] headers = response.getAllHeaders();
+        for (Header header : headers) {
+            log.trace(header.getName() + ": " + header.getValue());
+        }
 
-		log.trace("Response Body >>>");
+        log.trace("Response Body >>>");
 
-		String responseString = EntityUtils.toString(response.getEntity());
-		log.trace(responseString);
-		
-		rdeminResponse.setStatus(statusCode);
-		rdeminResponse.setContent(responseString);
-		if (!rdeminResponse.isResponseOK()) {
-			log.error(responseString);
-		}
+        String responseString = EntityUtils.toString(response.getEntity());
+        log.trace(responseString);
 
-		return rdeminResponse;
-	}
+        rdeminResponse.setStatus(statusCode);
+        rdeminResponse.setContent(responseString);
+        if (!rdeminResponse.isResponseOK()) {
+            log.error(responseString);
+        }
 
-	public void shutdown() {
-		if (httpclient != null)
-			httpclient.getConnectionManager().shutdown();
-	}
+        return rdeminResponse;
+    }
 
-	class RdeminResponse {
+    public void shutdown() {
+        if (httpclient != null)
+            httpclient.getConnectionManager().shutdown();
+    }
 
-		private int status;
+    class RdeminResponse {
 
-		private String content;
+        private int status;
 
-		public int getStatus() {
-			return status;
-		}
+        private String content;
 
-		public void setStatus(int status) {
-			this.status = status;
-		}
+        public int getStatus() {
+            return status;
+        }
 
-		public String getContent() {
-			return content;
-		}
+        public void setStatus(int status) {
+            this.status = status;
+        }
 
-		public void setContent(String content) {
-			this.content = content;
-		}
-		
-		public boolean isResponseOK(){
-			return (status >= 200 && status < 300);
-		}
-	}
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+
+        public boolean isResponseOK() {
+            return (status >= 200 && status < 300);
+        }
+    }
 
 }

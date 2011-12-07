@@ -17,64 +17,64 @@ package magicware.scm.redmine.tools.config;
 
 public class Config {
 
-	private String redmineHost;
+    private String redmineHost;
 
-	private int redminePort;
-	
-	private String redmineContext;
+    private int redminePort;
 
-	private String redmineAuthUser;
+    private String redmineContext;
 
-	private String redmineAuthPwd;
+    private String redmineAuthUser;
 
-	private SyncItem[] syncItems;
+    private String redmineAuthPwd;
 
-	public String getRedmineHost() {
-		return redmineHost;
-	}
+    private SyncItem[] syncItems;
 
-	public void setRedmineHost(String redmineHost) {
-		this.redmineHost = redmineHost;
-	}
+    public String getRedmineHost() {
+        return redmineHost;
+    }
 
-	public int getRedminePort() {
-		return redminePort;
-	}
+    public void setRedmineHost(String redmineHost) {
+        this.redmineHost = redmineHost;
+    }
 
-	public void setRedminePort(int redminePort) {
-		this.redminePort = redminePort;
-	}
+    public int getRedminePort() {
+        return redminePort;
+    }
 
-	public String getRedmineContext() {
-		return redmineContext;
-	}
+    public void setRedminePort(int redminePort) {
+        this.redminePort = redminePort;
+    }
 
-	public void setRedmineContext(String redmineContext) {
-		this.redmineContext = redmineContext;
-	}
+    public String getRedmineContext() {
+        return redmineContext;
+    }
 
-	public String getRedmineAuthUser() {
-		return redmineAuthUser;
-	}
+    public void setRedmineContext(String redmineContext) {
+        this.redmineContext = redmineContext;
+    }
 
-	public void setRedmineAuthUser(String redmineAuthUser) {
-		this.redmineAuthUser = redmineAuthUser;
-	}
+    public String getRedmineAuthUser() {
+        return redmineAuthUser;
+    }
 
-	public String getRedmineAuthPwd() {
-		return redmineAuthPwd;
-	}
+    public void setRedmineAuthUser(String redmineAuthUser) {
+        this.redmineAuthUser = redmineAuthUser;
+    }
 
-	public void setRedmineAuthPwd(String redmineAuthPwd) {
-		this.redmineAuthPwd = redmineAuthPwd;
-	}
+    public String getRedmineAuthPwd() {
+        return redmineAuthPwd;
+    }
 
-	public SyncItem[] getSyncItems() {
-		return syncItems;
-	}
+    public void setRedmineAuthPwd(String redmineAuthPwd) {
+        this.redmineAuthPwd = redmineAuthPwd;
+    }
 
-	public void setSyncItems(SyncItem[] syncItems) {
-		this.syncItems = syncItems;
-	}
+    public SyncItem[] getSyncItems() {
+        return syncItems;
+    }
+
+    public void setSyncItems(SyncItem[] syncItems) {
+        this.syncItems = syncItems;
+    }
 
 }
