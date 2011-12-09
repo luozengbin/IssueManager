@@ -30,6 +30,8 @@ public class SyncItem {
     private String keyFiledId;
 
     private String projectId;
+    
+    private String optionalQueryParams;
 
     public String getFilePath() {
         return filePath;
@@ -85,6 +87,14 @@ public class SyncItem {
 
     public void setProjectId(String projectId) {
         this.projectId = projectId;
+    }
+
+    public String getOptionalQueryParams() {
+        return optionalQueryParams;
+    }
+
+    public void setOptionalQueryParams(String optionalQueryParams) {
+        this.optionalQueryParams = optionalQueryParams;
     }
 
 }

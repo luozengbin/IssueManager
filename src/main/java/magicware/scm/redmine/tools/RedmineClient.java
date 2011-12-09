@@ -85,7 +85,7 @@ public class RedmineClient {
             StringBuilder uri = new StringBuilder();
 
             uri.append(this.context).append("/issues.json?")
-                    .append("project_id=").append(projectId).append("&")
+                    .append("project_id=").append(projectId).append("&status_id=*&")
                     .append(fieldId).append("=").append(keyNo);
 
             httpGet = new HttpGet(uri.toString());
