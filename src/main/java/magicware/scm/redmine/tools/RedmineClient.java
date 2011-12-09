@@ -16,11 +16,13 @@
 package magicware.scm.redmine.tools;
 
 import java.io.IOException;
+import java.util.UUID;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpRequest;
@@ -63,8 +65,9 @@ public class RedmineClient {
         // Basic認証
         httpclient.getCredentialsProvider().setCredentials(
                 new AuthScope(targetHost.getHostName(), targetHost.getPort()),
-                new UsernamePasswordCredentials(userName, new String(Base64
-                        .decodeBase64(base64Pwd))));
+                new UsernamePasswordCredentials(userName, StringUtils
+                        .isEmpty(base64Pwd) ? UUID.randomUUID().toString()
+                        : new String(Base64.decodeBase64(base64Pwd))));
         AuthCache authCache = new BasicAuthCache();
         BasicScheme basicAuth = new BasicScheme();
         authCache.put(targetHost, basicAuth);
