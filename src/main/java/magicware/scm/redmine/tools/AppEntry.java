@@ -27,8 +27,8 @@ public class AppEntry {
 
     public static void main(String[] args) throws InvalidFormatException,
             IOException {
-
-        System.getProperty(Constants.CONFIG_FILE, args[0]);
+        
+        System.setProperty(Constants.CONFIG_FILE, args[0]);
 
         Config config = ConfigFacade.getConfig();
 
