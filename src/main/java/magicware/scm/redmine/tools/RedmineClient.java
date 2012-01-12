@@ -102,6 +102,8 @@ public class RedmineClient {
                     count = Integer.valueOf(mr.group(1).trim());
                 }
                 log.debug("count of issue[" + keyNo + "] -> " + count);
+            } else {
+                throw new RuntimeException("予期しない例外がおきました。" + rdeminResponse.getContent());
             }
 
             return count;
