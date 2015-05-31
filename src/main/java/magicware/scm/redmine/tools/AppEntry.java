@@ -25,18 +25,17 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 public class AppEntry {
 
-    public static void main(String[] args) throws InvalidFormatException,
-            IOException {
-        
-        System.setProperty(Constants.CONFIG_FILE, args[0]);
+	public static void main(String[] args) throws InvalidFormatException, IOException {
 
-        Config config = ConfigFacade.getConfig();
+		System.setProperty(Constants.CONFIG_FILE, args[0]);
 
-        IssueSyncApp app = new IssueSyncApp();
+		Config config = ConfigFacade.getConfig();
 
-        for (SyncItem syncItem : config.getSyncItems()) {
-            app.execute(syncItem);
-        }
-    }
+		IssueSyncApp app = new IssueSyncApp();
+
+		for (SyncItem syncItem : config.getSyncItems()) {
+			app.execute(syncItem);
+		}
+	}
 
 }

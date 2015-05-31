@@ -47,7 +47,7 @@ public class IssueSyncAppTestCase {
         config = ConfigFacade.getConfig();
     }
 
-    @Test
+    //@Test
     public void testReadJSONTemplate() throws InvalidFormatException,
             IOException {
         for (SyncItem syncItem : config.getSyncItems()) {
@@ -57,7 +57,7 @@ public class IssueSyncAppTestCase {
         }
     }
 
-    @Test
+    //@Test
     public void testExecuteSimple() throws InvalidFormatException, IOException {
         for (SyncItem syncItem : config.getSyncItems()) {
             app.execute(syncItem);

@@ -2,9 +2,7 @@
 	"redmineHost": "redmine_server",
 	"redminePort": 80,
 	"redmineContext": "/redmine",
-	"redmineAuthUser": "redmine",
-	"redmineAuthPwd": "xxxxxx",
-	// "redmineApiKey": "7a71450d11c7f28c7c5a367bd5e6ab7cf353b87e",
+	"redmineApiKey": "7a71450d11c7f28c7c5a367bd5e6ab7cf353b87e",
 	"dateFormat" : "yyyy-MM-dd",
 	"syncItems": [
 		{
